@@ -66,4 +66,27 @@ From: ubuntu:22.04
     export DBUS_SESSION_BUS_ADDRESS="unix:path=${XDG_RUNTIME_DIR}/bus"
 
 %startscript
-    exec /bin/bash "$@"   
+    exec /bin/bash "$@"
+
+%runscript
+    rabbimq_path="/opt/rabbitmq_server-3.13.1/sbin"
+    $rabbimq_path/rabbitmq-server -detached && sleep 30
+    if [ $? -neq 0 ]; then
+        exit 1 
+    fi
+    $rabbimq_path/rabbitmqctl add_user 'admin1234' '1234'
+    if [ $? -neq 0 ]; then
+        exit 1 
+    fi
+    $rabbimq_path/rabbitmqctl add_vhost testadmin
+    if [ $? -neq 0 ]; then
+        exit 1 
+    fi
+    $rabbimq_path/rabbitmqctl set_permissions -p "testadmin" "admin1234" ".*" ".*" ".*"
+    if [ $? -neq 0 ]; then
+        exit 1 
+    fi
+    $rabbimq_path/rabbitmqctl set_policy ha-all "" '{"ha-mode":"all","ha-sync-mode":"automatic"}'
+    if [ $? -neq 0 ]; then
+        exit 1 
+    fi

@@ -34,11 +34,17 @@ lithops runtime build -b singularity singularity-plantilla342 -f singularity-tem
 ```bash
 cd lithops-hpc
 export LITHOPS_HPC_HOME=$(pwd)
-export MN5_QOS=<MN5_Partition>
-export MN5_USER=<MN5_ACCOUNT>
+export PLGRID_PARTITION=<PARTITION>
+export PLGRID_ACCOUNT=<ACCOUNT>
+export LITHOPS_WORKER_SIF=$LITHOPS_HPC_HOME/sif/<worker.sif>
+
 export PATH=$LITHOPS_HPC_HOME/scripts:$PATH
 export LITHOPS_HPC_STORAGE=$LITHOPS_HPC_HOME/lithops_wk/storage
 export LITHOPS_CONFIG_FILE=$LITHOPS_HPC_STORAGE/lithops_config
+export LITHOPS_HPC_JOB_TIME_LIMIT=1:00:00
+export LITHOPS_HPC_MEM_PER_CPU=5G
+
+export SINGULARITY_PATH=/usr/bin/apptainer
 
 conda activate lhops
 lithops_hpc.sh <num_cpus> <num_nodes>

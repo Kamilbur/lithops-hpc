@@ -46,7 +46,6 @@ cat << EOF > $LITHOPS_HPC_STORAGE/lithops_config
 lithops:
     backend : singularity
     storage: localhost
-    monitoring: rabbitmq
     log_level: INFO
 
 rabbitmq: 
@@ -61,7 +60,7 @@ localhost:
     storage_bucket: $LITHOPS_HPC_STORAGE
 EOF
 
-lithops_job=$(sbatch --parsable --dependency=after:$nginx_job -A $MN5_USER -q $MN5_QOS -c $cpus -N $nodes -n $nodes lithops_background.slurm $nginx_hostname )
+lithops_job=$(sbatch --parsable --dependency=after:$nginx_job --mem-per-cpu ${LITHOPS_HPC_MEM_PER_CPU:-512M} --time ${LITHOPS_HPC_JOB_TIME_LIMIT:-15:00} -A $PLGRID_ACCOUNT -p $PLGRID_PARTITION -c $cpus -N $nodes -n $nodes lithops_background.slurm $nginx_hostname )
 if [ $? -ne 0 ]; then
   echo "Setting Lithops failed."
   cd $current_dir

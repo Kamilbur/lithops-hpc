@@ -2,14 +2,14 @@
 
 current_dir=$(pwd)
 
-if [ -z "$MN5_USER" ]; then
-    echo "export MN5_USER environment variable with your MN5 user-account"
+if [ -z "$PLGRID_ACCOUNT" ]; then
+    echo "export PLGRID_ACCOUNT environment variable with appropriate user-account"
     cd $current_dir
     exit 1
 fi
 
-if [ -z "$MN5_QOS" ]; then
-    echo "export MN5_QOS environment variable with MN5 partition"
+if [ -z "$PLGRID_PARTITION" ]; then
+    echo "export PLGRID_PARTITION environment variable with appropriate partition"
     cd $current_dir
     exit 1
 fi
@@ -47,7 +47,7 @@ else
     exit 1
 fi
 
-total_workers_remove=$(squeue -A $MN5_USER -o "%A %D %c" | grep "^$job_id" |  awk '{print $2*$3}')
+total_workers_remove=$(squeue -A $PLGRID_ACCOUNT -o "%A %D %c" | grep "^$job_id" |  awk '{print $2*$3}')
 scancel $job_id
 scancel_exit_code=$?
 

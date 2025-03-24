@@ -13,7 +13,7 @@ cd $LITHOPS_HPC_HOME/rabbitmq/master/
 rm -rf var etc
 mkdir -p ./var/{lib/rabbitmq,log/rabbitmq}
 mkdir -p etc/rabbitmq
-master_batch_job=$(sbatch --parsable -A $MN5_USER -q $MN5_QOS rabbitmq_master.slurm)
+master_batch_job=$(sbatch --parsable -A $PLGRID_ACCOUNT -p $PLGRID_PARTITION --time ${LITHOPS_HPC_JOB_TIME_LIMIT:-15:00} rabbitmq_master.slurm)
 sleep 2
 if [ $? -ne 0 ]; then
     echo "Start RabbitMQ Master Node script failed."

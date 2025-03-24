@@ -2,14 +2,14 @@
 
 current_dir=$(pwd)
 
-if [ -z "$MN5_USER" ]; then
-    echo "export MN5_USER environment variable with your MN5 user-account"
+if [ -z "$PLGRID_ACCOUNT" ]; then
+    echo "export PLGRID_ACCOUNT environment variable with appropriate user-account"
     cd $current_dir
     exit 1
 fi
 
-if [ -z "$MN5_QOS" ]; then
-    echo "export MN5_QOS environment variable with MN5 partition"
+if [ -z "$PLGRID_PARTITION" ]; then
+    echo "export PLGRID_PARTITION environment variable with appropriate partition"
     cd $current_dir
     exit 1
 fi
@@ -42,7 +42,7 @@ nodes=$3
 
 #1. Allocate new nodes
 cd $LITHOPS_HPC_HOME/lithops_wk
-lithops_job=$(sbatch --parsable --dependency=after:$nginx_job -A $MN5_USER -q $MN5_QOS -c $cpus -N $nodes -n $nodes lithops_background.slurm $nginx_hostname )
+lithops_job=$(sbatch --parsable --dependency=after:$nginx_job -A $PLGRID_ACCOUNT -q $PLGRID_PARTITION -c $cpus -N $nodes -n $nodes lithops_background.slurm $nginx_hostname )
 if [ $? -ne 0 ]; then
   echo "Setting new nodes to failed."
   cd $current_dir

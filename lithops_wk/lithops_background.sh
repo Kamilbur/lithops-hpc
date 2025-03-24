@@ -1,5 +1,7 @@
 #!/bin/bash
 
+singularity=apptainer
+
 # Function to execute a command in the background and wait for it to finish
 execute_command() {
     echo "Executing command: $@"
@@ -38,13 +40,14 @@ fi
 
 if [ "$1" = "start" ]; then
   # Start singularity-plantilla instance
-  execute_command singularity instance start -B $storage_bucket:$storage_bucket -B $LITHOPS_HPC_HOME:$LITHOPS_HPC_HOME $3 lithops-worker
+  mkdir -p $SCRATCH/lithops_tmp
+  sleep 45
+  execute_command $singularity run -B $storage_bucket:$storage_bucket \
+  -B $LITHOPS_HPC_HOME:$LITHOPS_HPC_HOME -B $SCRATCH/lithops_tmp:/scratch --env AMQP_URL=amqp://admin1234:1234@$2:5672/testadmin $3
   sleep 30
-  # Running background
-  execute_command singularity run --env AMQP_URL=amqp://admin1234:1234@$2:5672/testadmin instance://lithops-worker
 
 elif [ "$1" = "stop" ]; then
-  execute_command singularity instance stop lithops-worker
+#  execute_command $singularity instance stop lithops-worker
   echo "*******************************"
   echo "lithops-worker close."
   echo "*******************************"

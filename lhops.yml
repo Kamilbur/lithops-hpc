@@ -4,9 +4,10 @@ channels:
   - conda-forge
 dependencies:
   - conda-forge::singularity
-  - python=3.11
+  - python=3.12
   - pip
   - pip:
       - pika
-      - git+https://github.com/macarronesc/lithops.git@BSC_Lithops
+      - git+https://github.com/Kamilbur/lithops.git@apptainer
+#      - git+https://github.com/macarronesc/lithops.git@BSC_Lithops
 
