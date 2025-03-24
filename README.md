@@ -1,4 +1,6 @@
-# Lithops-HPC
+# Lithops-HPC Cyfronet
+
+This project is based on [lithops-hpc](https://github.com/neardata-eu/lithops-hpc.git), licensed under the Apache License 2.0.
 
 ## Installation
 #### 1. Obtain the Lithops-HPC code: clone the sources and set the ENV variables
